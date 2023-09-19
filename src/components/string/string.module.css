@@ -1,0 +1,17 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.form {
+    display: flex;
+    width: 522px;
+    margin-bottom: 120px;
+}
+
+.vizualization {
+    display: flex;
+    gap: 16px;
+}
