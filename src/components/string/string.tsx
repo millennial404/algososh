@@ -15,8 +15,7 @@ export const swapper = async (arr: string[], leftIndex: number, rightIndex: numb
   let leftCharIndex = leftIndex;
   let rightCharIndex = rightIndex;
   let leftChar = newArr[leftCharIndex];
-  let rightChar = newArr[rightCharIndex];
-  newArr[leftCharIndex] = rightChar;
+  newArr[leftCharIndex] = newArr[rightCharIndex];
   newArr[rightCharIndex] = leftChar;
   return newArr
 }
