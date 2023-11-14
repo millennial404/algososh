@@ -6,6 +6,7 @@ import styles from "./string.module.css";
 import {Circle} from "../ui/circle/circle";
 import {useForm} from "../../hooks/useForm";
 import {ElementStates} from "../../types/element-states";
+import {DELAY_IN_MS} from "../../constants/delays";
 
 export const swapper = async (arr: string[], leftIndex: number, rightIndex: number) => {
   const newArr = [...arr];
@@ -40,7 +41,7 @@ export const StringComponent: React.FC = () => {
     setChangingElement({left: 0, right: newChars.length - 1});
     for (let i = 0; i < newChars.length / 2; i++) {
       setChangingElement({left: i, right: newChars.length - 1 - i});
-      await delay(1000);
+      await delay(DELAY_IN_MS);
       const swappedChars = await swapper(newChars, i, newChars.length - 1 - i);
       setArrayChars(swappedChars);
       modifiedElementsIndexes.push(i, newChars.length - 1 - i);
@@ -49,14 +50,14 @@ export const StringComponent: React.FC = () => {
     }
     setCompleted(false);
   }
-  console.log(modifiedElements)
+
   return (
     <SolutionLayout title="Строка">
       <div className={styles.wrapper}>
         <form className={styles.form} onSubmit={onSubmit}>
           <Input name={'string'} extraClass={'mr-6'} maxLength={11} isLimitText={true}
                  onChange={handleChange}/>
-          <Button disabled={completed} text={'Развернуть'} type={'submit'}/>
+          <Button isLoader={completed} text={'Развернуть'} type={'submit'}/>
         </form>
         <ul className={styles.vizualization}>
           {arrayChars?.map((item: string, index: number) => <li key={index}><Circle
