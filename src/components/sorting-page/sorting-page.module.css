@@ -14,7 +14,28 @@
     margin: 0 auto;
 }
 
-.buttonWidth {
+.buttonWidthNewArr {
+    max-width: 168px;
+    width: 100%;
+}
+.buttonWidthDescending {
+    max-width: 186px;
+    width: 100%;
+}
+.buttonWidthAscending {
     max-width: 205px;
     width: 100%;
+}
+.columnsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 48px auto;
+    height: 348px;
+    gap: 10px;
+}
+.columnsElement {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
