@@ -6,7 +6,7 @@ import {Button} from "../ui/button/button";
 import {Direction} from "../../types/direction";
 import {Column} from "../ui/column/column";
 import {ElementStates} from "../../types/element-states";
-import {DELAY_IN_MS, SHORT_DELAY_IN_MS} from "../../constants/delays";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 const randomArray = (length: number, min: number, max: number) => {
     const array = [];
@@ -30,7 +30,7 @@ const swap = (arr: number[], firstIndex: number, secondIndex: number): void => {
 export const SortingPage: React.FC = () => {
     const delay = (ms: number | undefined) => new Promise((resolve) => setTimeout(resolve, ms));
     const [array, setArray] = useState<number[]>([]);
-    const [sortingVariant, setSortingVariant] = useState('')
+    const [sortingVariant, setSortingVariant] = useState('selectionSort')
     const [changingLeftElement, setChangingLeftElement] = useState<number | null>(null);
     const [changingRightElement, setChangingRightElement] = useState<number | null>(null);
     const [modifiedElements, setModifiedElement] = useState<number[]>([]);
@@ -84,20 +84,31 @@ export const SortingPage: React.FC = () => {
         const newArr = [...arr];
         const {length} = newArr;
         for (let i = 0; i < length; i++) {
-            setChangingLeftElement(i);
             for (let j = 0; j < length - i - 1; j++) {
-                if (newArr[i] < newArr[j + 1]) {
-                    swap(newArr, newArr[i], newArr[j + 1]);
+                if (sortingVariant === 'ascending' && newArr[j] > newArr[j + 1]) {
+                    swap(newArr, j, j + 1);
+                } else if (sortingVariant === 'descending' && newArr[j] < newArr[j + 1]) {
+                    swap(newArr, j, j + 1);
                 }
-                setChangingRightElement(j);
+                setChangingLeftElement(j);
+                setChangingRightElement(j + 1);
+                setArray([...newArr]);
                 await delay(SHORT_DELAY_IN_MS);
+
             }
-            modifiedElementsIndex.push(i)
-            setModifiedElement([...modifiedElementsIndex])
+            modifiedElementsIndex.push(length - i - 1);
+            setModifiedElement([...modifiedElementsIndex]);
+        }
+        if (sortingVariant === 'descending') {
+            setCompleteDescending(false);
+        } else {
+            setCompleted(false);
         }
     }
 
     const handleButtonClick = () => {
+        setChangingLeftElement(null);
+        setChangingRightElement(null);
         setModifiedElement([]);
         setArray(randomArray(randomLength(), 0, 101));
     };
@@ -105,7 +116,6 @@ export const SortingPage: React.FC = () => {
     const handleOptionChange = (changeEvent: React.ChangeEvent<HTMLInputElement>) => {
         setSortingVariant(changeEvent.target.value)
     }
-    console.log(modifiedElements)
 
     return (
         <SolutionLayout title="Сортировка массива">
@@ -113,7 +123,8 @@ export const SortingPage: React.FC = () => {
                 <fieldset className={styles.fieldset}>
                     <RadioInput name="sort" value="selectionSort" disabled={completed || completeDescending}
                                 label={'Выбор'}
-                                onChange={handleOptionChange}/>
+                                onChange={handleOptionChange}
+                                defaultChecked/>
                     <RadioInput name="sort" value="bubbleSort" disabled={completed || completeDescending}
                                 onChange={handleOptionChange}
                                 label={'Пузырёк'}/>
@@ -122,7 +133,7 @@ export const SortingPage: React.FC = () => {
                         onClick={() => sortingVariant === 'selectionSort' ? selectionSort(array) : bubbleSort(array)}
                         text={'По возрастанию'} type={'button'} extraClass={`${styles.buttonWidthAscending}`}/>
                 <Button sorting={Direction.Descending} isLoader={completeDescending}
-                        onClick={() => sortingVariant === 'bubbleSort' ? selectionSort(array, 'descending') : bubbleSort(array, 'descending')}
+                        onClick={() => sortingVariant === 'selectionSort' ? selectionSort(array, 'descending') : bubbleSort(array, 'descending')}
                         disabled={completed} extraClass={`${styles.buttonWidthDescending} ml-6`} text={'По убыванию'}
                         type={'button'}/>
                 <Button onClick={handleButtonClick} disabled={completed || completeDescending}
