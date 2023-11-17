@@ -50,9 +50,9 @@ export const StackPage: React.FC = () => {
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <Input name={'value'} extraClass={'mr-6'} maxLength={4} isLimitText={true}
                            onChange={handleChange}/>
-                    <Button extraClass={`ml-6`} text={'Добавить'} type={'submit'}/>
-                    <Button onClick={del} extraClass={`ml-6`} text={'Удалить'} type={'button'}/>
-                    <Button onClick={clear} extraClass={`ml-40`} text={'Очистить'} type={'button'}/>
+                    <Button extraClass={`ml-6`} disabled={!(values.value && values.value !== '')} text={'Добавить'} type={'submit'}/>
+                    <Button onClick={del} disabled={arrayChars.length === 0} extraClass={`ml-6`} text={'Удалить'} type={'button'}/>
+                    <Button onClick={clear} disabled={arrayChars.length === 0} extraClass={`ml-40`} text={'Очистить'} type={'button'}/>
                 </form>
                 <ul className={styles.vizualization}>
                     {arrayChars?.map((item: string | number, index: number) => <li key={index}>
