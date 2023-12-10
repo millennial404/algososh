@@ -21,6 +21,7 @@ export const ListPage: React.FC = () => {
   const [modifiedIndex, setModifiedIndex] = useState<number | null>(null);
   const [isVoid, setIsVoid] = useState<number | null>(null);
   const [theValueToBeDeleted, setTheValueToBeDeleted] = useState<string>('');
+  const [indexesItems, setIndexesItems] = useState<number[]>([]);
   const linkedList = new LinkedList<number | string>(arrayChars);
   const addHead = async () => {
     setIsDisabled(true);
@@ -33,9 +34,11 @@ export const ListPage: React.FC = () => {
     setModifiedIndex(0)
     await delay(DELAY_IN_MS);
     setModifiedIndex(null)
-    setIsLoading(null);
     setIsDisabled(false);
     setValues({value: '', index: ''});
+    await delay(DELAY_IN_MS);
+    setIsLoading(null);
+
   }
   const addTail = async () => {
     setIsDisabled(true);
@@ -48,9 +51,10 @@ export const ListPage: React.FC = () => {
     setModifiedIndex(arrayChars.length)
     await delay(DELAY_IN_MS);
     setModifiedIndex(null)
-    setIsLoading(null);
     setIsDisabled(false);
     setValues({value: '', index: ''});
+    await delay(DELAY_IN_MS);
+    setIsLoading(null);
 
   }
   const deleteHead = async () => {
@@ -63,11 +67,12 @@ export const ListPage: React.FC = () => {
     await delay(DELAY_IN_MS);
     setArrayChars(linkedList.toArray());
     setTailIndex(null)
-    setIsLoading(null);
     setIsVoid(null);
     setIsDisabled(false);
     setTheValueToBeDeleted('');
     setValues({value: '', index: ''});
+    await delay(DELAY_IN_MS);
+    setIsLoading(null);
   }
   const deleteTail = async () => {
     setIsDisabled(true);
@@ -79,27 +84,65 @@ export const ListPage: React.FC = () => {
     await delay(DELAY_IN_MS);
     setArrayChars(linkedList.toArray());
     setTailIndex(null)
-    setIsLoading(null);
     setIsVoid(null);
     setIsDisabled(false);
     setTheValueToBeDeleted('');
     setValues({value: '', index: ''});
+    await delay(DELAY_IN_MS);
+    setIsLoading(null);
   }
   const removeByIndex = async () => {
     setIsDisabled(true);
     setIsLoading('removeByIndex');
     linkedList.deleteByIndex(Number(values.index));
+    for (let i = 0; i < Number(values.index) + 1; i++) {
+      const indexes = indexesItems;
+      indexes.push(i);
+      setIndexesItems([...indexes])
+      await delay(DELAY_IN_MS);
+    }
+    setTheValueToBeDeleted(String(arrayChars[Number(values.index)]));
+    setTailIndex(Number(values.index))
+    const popIndexes = indexesItems
+    popIndexes.pop();
+    setIndexesItems([...popIndexes])
+    setIsVoid(Number(values.index))
     await delay(DELAY_IN_MS);
+    setIndexesItems([])
     setArrayChars(linkedList.toArray());
+    setIsVoid(null);
+    setTailIndex(null)
     setIsLoading(null);
     setIsDisabled(false);
+    setValues({value: '', index: ''});
+
   }
-  const addByIndex = () => {
-    linkedList.addByIndex(values.value, values.index);
+  const addByIndex = async () => {
+    setIsDisabled(true);
+    setIsLoading('addByIndex');
+    for (let i = 0; i < Number(values.index) + 1; i++) {
+      setHeadIndex(i)
+      if (i > 0) {
+        const indexes = indexesItems;
+        indexes.push(i - 1);
+        setIndexesItems([...indexes])
+      }
+      await delay(DELAY_IN_MS);
+    }
+    linkedList.addByIndex(values.value, Number(values.index));
     setArrayChars(linkedList.toArray());
+    setHeadIndex(null)
+    setIsDisabled(false);
+    setModifiedIndex(Number(values.index))
+    setIndexesItems([]);
+    await delay(DELAY_IN_MS);
+    setModifiedIndex(null)
+    await delay(DELAY_IN_MS);
+    setIsLoading(null);
+    setValues({value: '', index: ''});
   }
 
-  console.log(values);
+  console.log(values, indexesItems);
 
   useEffect(() => {
     setArrayChars(randomArray(5, 0, 100).map(el => String(el)));
@@ -114,11 +157,11 @@ export const ListPage: React.FC = () => {
                    maxLength={4}
                    isLimitText={true} placeholder={'Введите значение'} value={values.value}/>
             <Button extraClass={`${styles.buttonValue} ml-6`} isLoader={isLoading === 'addHead'}
-                    disabled={(values.value ? values.value === '' : true) || isDisabled}
+                    disabled={values.value === '' || isDisabled}
                     text={'Добавить в head'}
                     type={'button'} onClick={addHead}/>
             <Button extraClass={`${styles.buttonValue} ml-6`} isLoader={isLoading === 'addTail'}
-                    disabled={(values.value ? values.value === '' : true) || isDisabled}
+                    disabled={values.value === '' || isDisabled}
                     text={'Добавить в tail'}
                     type={'button'} onClick={addTail}/>
             <Button extraClass={`${styles.buttonValue} ml-6`} isLoader={isLoading === 'deleteHead'}
@@ -135,9 +178,13 @@ export const ListPage: React.FC = () => {
                    extraClass={`${styles.input}`}
                    placeholder={'Введите индекс'}
                    value={values.index}/>
-            <Button extraClass={`${styles.buttonIndex} ml-6`} disabled={(values.value ? values.value === '' : true) || isDisabled} text={'Добавить по индексу'}
+            <Button extraClass={`${styles.buttonIndex} ml-6`} isLoader={isLoading === 'addByIndex'}
+                    disabled={(Number(values.index) < 0 || Number(values.index) > arrayChars.length - 1) || (values.index === '' || values.value === '') || isDisabled}
+                    text={'Добавить по индексу'}
                     type={'button'} onClick={addByIndex}/>
-            <Button extraClass={`${styles.buttonIndex} ml-6`} isLoader={isLoading === 'removeByIndex'} disabled={(values.index ? values.index === '' : true) || isDisabled} text={'Удалить по индексу'}
+            <Button extraClass={`${styles.buttonIndex} ml-6`} isLoader={isLoading === 'removeByIndex'}
+                    disabled={(Number(values.index) < 0 || Number(values.index) > arrayChars.length - 1) || values.index === '' || isDisabled}
+                    text={'Удалить по индексу'}
                     type={'button'} onClick={removeByIndex}/>
           </div>
         </form>
@@ -145,7 +192,11 @@ export const ListPage: React.FC = () => {
           {arrayChars?.map((item: string | number | null, index: number) =>
             <li key={index} className={styles.element}>
               <Circle
-                state={modifiedIndex === index ? ElementStates.Modified : ElementStates.Default}
+                state={indexesItems.includes(index)
+                  ? ElementStates.Changing
+                  : modifiedIndex === index
+                    ? ElementStates.Modified
+                    : ElementStates.Default}
                 head={index === headIndex ?
                   <Circle state={ElementStates.Changing} isSmall letter={values.value}/> : index === 0 ? 'head' : ''}
                 tail={index === tailIndex ? <Circle state={ElementStates.Changing} isSmall

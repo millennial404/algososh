@@ -7,25 +7,7 @@ import {Direction} from "../../types/direction";
 import {Column} from "../ui/column/column";
 import {ElementStates} from "../../types/element-states";
 import {SHORT_DELAY_IN_MS} from "../../constants/delays";
-
-const randomArray = (length: number, min: number, max: number) => {
-    const array = [];
-    for (let i = 0; i < length; i++) {
-        array.push(Math.floor(Math.random() * (max - min) + min));
-    }
-    return array;
-}
-
-const randomLength = () => {
-    return Math.floor(Math.random() * 15) + 3;
-}
-
-const swap = (arr: number[], firstIndex: number, secondIndex: number): void => {
-    const temp = arr[firstIndex];
-    arr[firstIndex] = arr[secondIndex];
-    arr[secondIndex] = temp;
-};
-
+import {randomArray, randomLength, swap} from "./utils";
 
 export const SortingPage: React.FC = () => {
     const delay = (ms: number | undefined) => new Promise((resolve) => setTimeout(resolve, ms));
