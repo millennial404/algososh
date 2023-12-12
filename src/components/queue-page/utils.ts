@@ -1,29 +1,29 @@
 export class Queue<T> {
-  private queue: T[] = [];
+  private items: T[] = [];
 
   enqueue(item: T) {
-    this.queue.push(item);
+    this.items.push(item);
   }
 
   dequeue() {
-    return this.queue.shift();
+    return this.items.shift();
   }
 
   clear() {
-    this.queue = [];
+    this.items = [];
   }
 
-  get isEmpty() { return !this.queue.length; }
+  get isEmpty() { return !this.items.length; }
 
   get elements() {
-    return this.queue
+    return this.items
   }
 
   get head() {
-    return this.queue[0]
+    return this.items[0]
   }
 
   get tail() {
-    return this.queue[this.queue.length - 1]
+    return this.items[this.items.length - 1]
   }
   }

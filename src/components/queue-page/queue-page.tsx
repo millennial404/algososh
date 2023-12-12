@@ -7,15 +7,17 @@ import {Circle} from "../ui/circle/circle";
 import {ElementStates} from "../../types/element-states";
 import {useForm} from "../../hooks/useForm";
 import {DELAY_IN_MS} from "../../constants/delays";
+import {Queue} from "./utils";
 
 export const QueuePage: React.FC = () => {
   const delay = (ms: number | undefined) => new Promise((resolve) => setTimeout(resolve, ms));
-  const {values, handleChange, setValues} = useForm({});
+  const {values, handleChange, setValues} = useForm({value: ''});
   const [arrayChars, setArrayChars] = useState<(string | number)[]>(['', '', '', '', '', '', '']);
   const [lighting, setLighting] = useState<number | null>(null);
   const [headIndex, setHeadIndex] = useState<number>(0);
   const [tailIndex, setTailIndex] = useState<number>(-1);
   const [isDisebled, setIsDisebled] = useState<boolean>(true);
+  const queue = new Queue<string | number>();
   const checkArray = (arrayChars: (string | number)[]) => {
     let flag = true
     arrayChars.forEach((char: string | number, index: number) => {
@@ -25,7 +27,7 @@ export const QueuePage: React.FC = () => {
     })
     setIsDisebled(flag)
   }
-  const enqueue = async (e: React.FormEvent) => {
+  const enqueueVisualization = async () => {
     if (tailIndex >= arrayChars.length - 1) {
       return
     } else {
@@ -35,13 +37,11 @@ export const QueuePage: React.FC = () => {
       let newChars: (string | number)[] = [...arrayChars];
       newChars[tailIndex + 1] = values.value;
       setArrayChars([...newChars]);
-      const target = e.target as HTMLFormElement;
-      target.reset();
       setValues({value: ''})
       setLighting(null)
     }
   }
-  const dequeue = async () => {
+  const dequeueVisualization = async () => {
     if (headIndex >= arrayChars.length) {
       return
     } else if (headIndex === tailIndex) {
@@ -69,26 +69,28 @@ export const QueuePage: React.FC = () => {
     setHeadIndex(0);
     setTailIndex(-1);
   }
-  const handleSubmit = (evt: React.FormEvent) => {
-    evt.preventDefault();
-    if (values.value && values.value !== '') {
-      enqueue(evt)
-    }
-  }
+
   useEffect(() => {
     checkArray(arrayChars)
   }, [arrayChars]);
 
-  console.log(headIndex, tailIndex)
+  // console.log(headIndex, tailIndex)
+  const originalArray = [3, 4, 5, 3, 5];
+  const newArray = Array.from({ length: 7 }, (_, index) =>
+    index < originalArray.length ? originalArray[index] : ''
+  );
+
+  console.log(newArray);
+
   return (
     <SolutionLayout title="Очередь">
       <div className={styles.wrapper}>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <Input name={'value'} extraClass={'mr-6'} maxLength={4} isLimitText={true}
+        <form className={styles.form}>
+          <Input name={'value'} extraClass={'mr-6'} maxLength={4} isLimitText={true} value={values.value}
                  onChange={handleChange}/>
-          <Button extraClass={`ml-6`} disabled={!(values.value && values.value !== '')} text={'Добавить'}
-                  type={'submit'}/>
-          <Button onClick={dequeue} disabled={isDisebled} extraClass={`ml-6`} text={'Удалить'}
+          <Button extraClass={`ml-6`} onClick={enqueueVisualization} disabled={!(values.value && values.value !== '')} text={'Добавить'}
+                  type={'button'}/>
+          <Button onClick={dequeueVisualization} disabled={isDisebled} extraClass={`ml-6`} text={'Удалить'}
                   type={'button'}/>
           <Button onClick={clear}
                   disabled={headIndex !== 0 && tailIndex !== -1 ? false : headIndex === 7 ? false : isDisebled}
