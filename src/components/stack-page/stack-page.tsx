@@ -37,7 +37,6 @@ export const StackPage: React.FC = () => {
     setArrayChars(stack.itemsArray);
   }
 
-  console.log(stack.itemsArray)
   return (
     <SolutionLayout title="Стек">
       <div className={styles.wrapper}>

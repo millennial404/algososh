@@ -142,8 +142,6 @@ export const ListPage: React.FC = () => {
     setValues({value: '', index: ''});
   }
 
-  console.log(values, indexesItems);
-
   useEffect(() => {
     setArrayChars(randomArray(5, 0, 100).map(el => String(el)));
   }, []);

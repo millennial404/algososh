@@ -16,7 +16,6 @@ export const QueuePage: React.FC = () => {
   const [lighting, setLighting] = useState<number | null>(null);
   const [headIndex, setHeadIndex] = useState<number>(0);
   const [tailIndex, setTailIndex] = useState<number>(0);
-  const [isDisebled, setIsDisebled] = useState<boolean>(true);
   const queue = useRef(new Queue<string>(7, '')).current;
 
   const enqueueVisualization = async () => {
@@ -24,9 +23,6 @@ export const QueuePage: React.FC = () => {
       return
     }
     queue.enqueue(values.value)
-    console.log(queue.elements);
-    console.log(`headIndex: ${queue.headIndex}`);
-    console.log(`tailIndex: ${queue.tailIndex}`);
     setLighting(queue.tailIndex - 1);
     await delay(DELAY_IN_MS);
     setArrayChars([...queue.elements]);
@@ -37,11 +33,8 @@ export const QueuePage: React.FC = () => {
   const dequeueVisualization = async () => {
     if (headIndex === arrayChars.length) {
       return
-    } else if (headIndex === arrayChars.length-1) {
+    } else if (headIndex === arrayChars.length - 1) {
       queue.dequeue()
-      console.log(queue.elements);
-      console.log(`headIndex: ${queue.headIndex}`);
-      console.log(`tailIndex: ${queue.tailIndex}`);
       setLighting(queue.headIndex - 1);
       await delay(DELAY_IN_MS);
       setArrayChars([...queue.elements]);
@@ -50,9 +43,6 @@ export const QueuePage: React.FC = () => {
       return
     }
     queue.dequeue()
-    console.log(queue.elements);
-    console.log(`headIndex: ${queue.headIndex}`);
-    console.log(`tailIndex: ${queue.tailIndex}`);
     setLighting(queue.headIndex - 1);
     await delay(DELAY_IN_MS);
     setArrayChars([...queue.elements]);
@@ -72,12 +62,6 @@ export const QueuePage: React.FC = () => {
     setArrayChars(queue.elements);
   }, []);
 
-  // console.log(headIndex, tailIndex)
-  const originalArray = [3, 4, 5, 3, 5];
-  const newArray = Array.from({length: 7}, (_, index) =>
-    index < originalArray.length ? originalArray[index] : ''
-  );
-
   return (
     <SolutionLayout title="Очередь">
       <div className={styles.wrapper}>
@@ -87,10 +71,10 @@ export const QueuePage: React.FC = () => {
           <Button extraClass={`ml-6`} onClick={enqueueVisualization} disabled={!(values.value && values.value !== '')}
                   text={'Добавить'}
                   type={'button'}/>
-          <Button onClick={dequeueVisualization} disabled={false} extraClass={`ml-6`} text={'Удалить'}
+          <Button onClick={dequeueVisualization} disabled={queue.isEmpty} extraClass={`ml-6`} text={'Удалить'}
                   type={'button'}/>
           <Button onClick={clear}
-                  disabled={queue.isEmpty}
+                  disabled={queue.isEmpty && headIndex === 0 && tailIndex === 0}
                   extraClass={`ml-40`} text={'Очистить'}
                   type={'button'}/>
         </form>
