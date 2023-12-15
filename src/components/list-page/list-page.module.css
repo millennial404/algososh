@@ -1,0 +1,63 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 952px;
+    width: 100%;
+    margin-bottom: 120px;
+}
+
+.vizualization {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 16px;
+}
+
+.formValue {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.formIndex {
+    display: flex;
+}
+
+.input {
+    width: 205px;
+}
+
+.buttonIndex {
+    max-width: 362px;
+    width: 100%;
+}
+
+.buttonValue {
+    max-width: 175px;
+    width: 100%;
+}
+
+.element {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.circleStack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.circleAndArrowIcon {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
