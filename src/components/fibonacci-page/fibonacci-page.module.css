@@ -1,0 +1,26 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.form {
+    display: flex;
+    width: 522px;
+    margin-bottom: 120px;
+}
+
+.vizualization {
+    list-style-type: none;
+    max-width: 950px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 16px;
+}
+
+.element {
+    margin-bottom: 48px;
+}
