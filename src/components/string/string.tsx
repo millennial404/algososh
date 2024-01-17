@@ -7,19 +7,7 @@ import {Circle} from "../ui/circle/circle";
 import {useForm} from "../../hooks/useForm";
 import {ElementStates} from "../../types/element-states";
 import {DELAY_IN_MS} from "../../constants/delays";
-
-export const swapper = async (arr: string[], leftIndex: number, rightIndex: number) => {
-  const newArr = [...arr];
-  if (newArr.length <= 1) {
-    return arr;
-  }
-  let leftCharIndex = leftIndex;
-  let rightCharIndex = rightIndex;
-  let leftChar = newArr[leftCharIndex];
-  newArr[leftCharIndex] = newArr[rightCharIndex];
-  newArr[rightCharIndex] = leftChar;
-  return newArr
-}
+import {swapper} from "./utils";
 
 export const StringComponent: React.FC = () => {
   const delay = (ms: number | undefined) => new Promise((resolve) => setTimeout(resolve, ms));
