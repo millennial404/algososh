@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component корректно отображает кнопку без текста 1`] = `
+<div>
+  <button
+    class="text text_type_button text_color_primary button undefined false "
+    type="button"
+  >
+    <p
+      class="text undefined"
+    />
+  </button>
+</div>
+`;
+
+exports[`Button component корректно отображает кнопку с индикацией загрузки 1`] = `
+<div>
+  <button
+    class="text text_type_button text_color_primary button undefined loader "
+    disabled=""
+    type="button"
+  >
+    <img
+      alt="Загрузка."
+      class="loader_icon"
+      src="loader.svg"
+    />
+  </button>
+</div>
+`;
+
+exports[`Button component корректно отображает кнопку с текстом 1`] = `
+<div>
+  <button
+    class="text text_type_button text_color_primary button undefined false "
+    type="button"
+  >
+    <p
+      class="text undefined"
+    >
+      Click me!
+    </p>
+  </button>
+</div>
+`;
+
+exports[`Button component корректно отображает отключенную кнопку 1`] = `
+<div>
+  <button
+    class="text text_type_button text_color_primary button undefined false "
+    disabled=""
+    type="button"
+  >
+    <p
+      class="text undefined"
+    />
+  </button>
+</div>
+`;
