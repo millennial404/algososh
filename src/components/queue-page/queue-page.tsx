@@ -60,7 +60,7 @@ export const QueuePage: React.FC = () => {
 
   useEffect(() => {
     setArrayChars(queue.elements);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SolutionLayout title="Очередь">
