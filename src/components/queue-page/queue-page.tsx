@@ -28,7 +28,7 @@ export const QueuePage: React.FC = () => {
     setArrayChars([...queue.elements]);
     setTailIndex(queue.tailIndex - 1);
     setLighting(null);
-    // setValues({value: ''});
+    setValues({value: ''});
   }
   const dequeueVisualization = async () => {
     if (headIndex === arrayChars.length) {
@@ -68,10 +68,10 @@ export const QueuePage: React.FC = () => {
         <form className={styles.form}>
           <Input name={'value'} extraClass={'mr-6'} maxLength={4} isLimitText={true} value={values.value}
                  onChange={handleChange}/>
-          <Button extraClass={`ml-6`} onClick={enqueueVisualization} disabled={!(values.value && values.value !== '')}
+          <Button extraClass={`cy_test_button_add ml-6`} onClick={enqueueVisualization} disabled={!(values.value && values.value !== '')}
                   text={'Добавить'}
                   type={'button'}/>
-          <Button onClick={dequeueVisualization} disabled={queue.isEmpty} extraClass={`ml-6`} text={'Удалить'}
+          <Button onClick={dequeueVisualization} disabled={queue.isEmpty} extraClass={`cy_test_button_del ml-6`} text={'Удалить'}
                   type={'button'}/>
           <Button onClick={clear}
                   disabled={queue.isEmpty && headIndex === 0 && tailIndex === 0}

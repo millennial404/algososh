@@ -11,7 +11,7 @@ import {swapper} from "./utils";
 
 export const StringComponent: React.FC = () => {
   const delay = (ms: number | undefined) => new Promise((resolve) => setTimeout(resolve, ms));
-  const {values, handleChange,} = useForm({});
+  const {values, handleChange, setValues} = useForm({string: ''});
   const [arrayChars, setArrayChars] = useState<string[]>([]);
   const [changingElements, setChangingElement] = useState<{ left: number | null, right: number | null }>({
     left: null,
@@ -45,7 +45,7 @@ export const StringComponent: React.FC = () => {
         <form className={styles.form} onSubmit={onSubmit}>
           <Input name={'string'} extraClass={'mr-6'} maxLength={11} isLimitText={true}
                  onChange={handleChange}/>
-          <Button isLoader={completed} text={'Развернуть'} type={'submit'}/>
+          <Button extraClass={'cy_test_button_reverse'} isLoader={completed} text={'Развернуть'} type={'submit'} disabled={values.string.length < 1}/>
         </form>
         <ul className={styles.vizualization}>
           {arrayChars?.map((item: string, index: number) => <li key={index}><Circle
