@@ -68,15 +68,17 @@ export const QueuePage: React.FC = () => {
         <form className={styles.form}>
           <Input name={'value'} extraClass={'mr-6'} maxLength={4} isLimitText={true} value={values.value}
                  onChange={handleChange}/>
-          <Button extraClass={`cy_test_button_add ml-6`} onClick={enqueueVisualization} disabled={!(values.value && values.value !== '')}
+          <Button extraClass={` ml-6`} onClick={enqueueVisualization} disabled={!(values.value && values.value !== '')}
                   text={'Добавить'}
-                  type={'button'}/>
-          <Button onClick={dequeueVisualization} disabled={queue.isEmpty} extraClass={`cy_test_button_del ml-6`} text={'Удалить'}
-                  type={'button'}/>
+                  type={'button'}
+                  data-cy="addButton"/>
+          <Button onClick={dequeueVisualization} disabled={queue.isEmpty} extraClass={`ml-6`} text={'Удалить'}
+                  type={'button'} data-cy="delButton"/>
           <Button onClick={clear}
                   disabled={queue.isEmpty && headIndex === 0 && tailIndex === 0}
                   extraClass={`ml-40`} text={'Очистить'}
-                  type={'button'}/>
+                  type={'button'}
+                  data-cy="clearButton"/>
         </form>
         <ul className={styles.vizualization}>
           {arrayChars?.map((item: string | number, index: number) => <li key={index}>

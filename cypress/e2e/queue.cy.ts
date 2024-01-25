@@ -4,13 +4,13 @@ describe('Queue Page', () => {
   });
   it('Проверка доступности кнопки добавления', () => {
     cy.get('input[name=value]').should('have.value', '');
-    cy.get('.cy_test_button_add').should('be.disabled');
+    cy.get('[data-cy="addButton"]').should('be.disabled');
   });
 
   it('Правильность добавления элемента в очередь', () => {
 
-    cy.get('input').type('00');
-    cy.get('.cy_test_button_add').click();
+    cy.get('input[name=value]').type('00');
+    cy.get('[data-cy="addButton"]').click();
 
     cy.get('[class*=circle_content]').first().as('firstElement');
     cy.get('@firstElement').contains('00');
@@ -20,8 +20,8 @@ describe('Queue Page', () => {
     cy.wait(1000);
     cy.get('@firstElement').children('[class*=circle_default]');
 
-    cy.get('input').type('11');
-    cy.get('button').contains('Добавить').click();
+    cy.get('input[name=value]').type('11');
+    cy.get('[data-cy="addButton"]').click();
     cy.wait(1000);
 
     cy.get('[class*=circle_content]').should('have.length', 7).each(($el, index) => {
@@ -38,10 +38,10 @@ describe('Queue Page', () => {
 
   it('Правильность удаления элемента из очереди', () => {
 
-    cy.get('[name="value"]').type('00');
-    cy.get('.cy_test_button_add').click();
+    cy.get('input[name=value]').type('00');
+    cy.get('[data-cy="addButton"]').click();
     cy.wait(1000);
-    cy.get('.cy_test_button_del').click();
+    cy.get('[data-cy="delButton"]').click();
     cy.get('[class*=circle_content]').first().as('firstElement');
     cy.get('@firstElement').children('[class*=circle_changing]');
     cy.wait(1000);
