@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SolutionLayout} from "../ui/solution-layout/solution-layout";
 import styles from "./fibonacci-page.module.css";
 import {Input} from "../ui/input/input";
@@ -15,7 +15,9 @@ export const FibonacciPage: React.FC = () => {
   const {values, handleChange} = useForm({number: ''});
   const [arrayChars, setArrayChars] = useState<number[]>([]);
   const [completed, setCompleted] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
   const fibonacciAnimation = async () => {
+    if (!isMounted) return
     setCompleted(true);
     const fibonacciArr = getFibonacciNumbers(Number(values.number));
     const fibNums = [];
@@ -26,6 +28,11 @@ export const FibonacciPage: React.FC = () => {
     }
     setCompleted(false);
   }
+  useEffect(() => {
+    return () => {
+      setIsMounted(false)
+    }
+  },[])
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">

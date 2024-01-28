@@ -153,23 +153,23 @@ export const ListPage: React.FC = () => {
           <div className={styles.formValue}>
             <Input name={'value'} onChange={handleChange} disabled={isDisabled} extraClass={`${styles.input}`}
                    maxLength={4}
-                   isLimitText={true} placeholder={'Введите значение'} value={values.value}/>
+                   isLimitText={true} placeholder={'Введите значение'} value={values.value} />
             <Button extraClass={`${styles.buttonValue} ml-6`} isLoader={isLoading === 'addHead'}
                     disabled={values.value === '' || isDisabled}
                     text={'Добавить в head'}
-                    type={'button'} onClick={addHead}/>
+                    type={'button'} onClick={addHead} data-cy="addToHeadButton"/>
             <Button extraClass={`${styles.buttonValue} ml-6`} isLoader={isLoading === 'addTail'}
                     disabled={values.value === '' || isDisabled}
                     text={'Добавить в tail'}
-                    type={'button'} onClick={addTail}/>
+                    type={'button'} onClick={addTail} data-cy="addToTailButton"/>
             <Button extraClass={`${styles.buttonValue} ml-6`} isLoader={isLoading === 'deleteHead'}
                     disabled={isDisabled}
                     text={'Удалить из head'} type={'button'}
-                    onClick={deleteHead}/>
+                    onClick={deleteHead} data-cy="deleteFromHeadButton"/>
             <Button extraClass={`${styles.buttonValue} ml-6`} isLoader={isLoading === 'deleteTail'}
                     disabled={isDisabled}
                     text={'Удалить из tail'} type={'button'}
-                    onClick={deleteTail}/>
+                    onClick={deleteTail} data-cy="deleteFromTailButton"/>
           </div>
           <div className={styles.formIndex}>
             <Input name={'index'} onChange={handleChange} disabled={isDisabled} type={'number'}
@@ -179,11 +179,11 @@ export const ListPage: React.FC = () => {
             <Button extraClass={`${styles.buttonIndex} ml-6`} isLoader={isLoading === 'addByIndex'}
                     disabled={(Number(values.index) < 0 || Number(values.index) > arrayChars.length - 1) || (values.index === '' || values.value === '') || isDisabled}
                     text={'Добавить по индексу'}
-                    type={'button'} onClick={addByIndex}/>
+                    type={'button'} onClick={addByIndex} data-cy="addByIndex"/>
             <Button extraClass={`${styles.buttonIndex} ml-6`} isLoader={isLoading === 'removeByIndex'}
                     disabled={(Number(values.index) < 0 || Number(values.index) > arrayChars.length - 1) || values.index === '' || isDisabled}
                     text={'Удалить по индексу'}
-                    type={'button'} onClick={removeByIndex}/>
+                    type={'button'} onClick={removeByIndex} data-cy="removeByIndex"/>
           </div>
         </form>
         <ul className={styles.vizualization}>

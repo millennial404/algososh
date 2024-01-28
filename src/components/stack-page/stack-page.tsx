@@ -42,13 +42,13 @@ export const StackPage: React.FC = () => {
       <div className={styles.wrapper}>
         <form className={styles.form}>
           <Input name={'value'} extraClass={'mr-6'} value={values.value} maxLength={4} isLimitText={true}
-                 onChange={handleChange}/>
+                 onChange={handleChange} data-cy="input"/>
           <Button extraClass={`ml-6`} onClick={add} disabled={!(values.value && values.value !== '')} text={'Добавить'}
-                  type={'button'}/>
+                  type={'button'} data-cy="addButton"/>
           <Button onClick={del} disabled={arrayChars.length === 0} extraClass={`ml-6`} text={'Удалить'}
-                  type={'button'}/>
+                  type={'button'} data-cy="delButton"/>
           <Button onClick={clear} disabled={arrayChars.length === 0} extraClass={`ml-40`} text={'Очистить'}
-                  type={'button'}/>
+                  type={'button'} data-cy="clearButton"/>
         </form>
         <ul className={styles.vizualization}>
           {arrayChars?.map((item: string | number, index: number) => <li key={index}>
@@ -57,6 +57,7 @@ export const StackPage: React.FC = () => {
               state={lighting === index ? ElementStates.Changing : ElementStates.Default}
               letter={`${item}`}
               index={index}
+              data-cy="circleEl"
             /></li>)}
         </ul>
       </div>

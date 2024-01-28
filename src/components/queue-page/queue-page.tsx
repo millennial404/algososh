@@ -28,7 +28,7 @@ export const QueuePage: React.FC = () => {
     setArrayChars([...queue.elements]);
     setTailIndex(queue.tailIndex - 1);
     setLighting(null);
-    // setValues({value: ''});
+    setValues({value: ''});
   }
   const dequeueVisualization = async () => {
     if (headIndex === arrayChars.length) {
@@ -60,7 +60,7 @@ export const QueuePage: React.FC = () => {
 
   useEffect(() => {
     setArrayChars(queue.elements);
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SolutionLayout title="Очередь">
@@ -68,15 +68,17 @@ export const QueuePage: React.FC = () => {
         <form className={styles.form}>
           <Input name={'value'} extraClass={'mr-6'} maxLength={4} isLimitText={true} value={values.value}
                  onChange={handleChange}/>
-          <Button extraClass={`ml-6`} onClick={enqueueVisualization} disabled={!(values.value && values.value !== '')}
+          <Button extraClass={` ml-6`} onClick={enqueueVisualization} disabled={!(values.value && values.value !== '')}
                   text={'Добавить'}
-                  type={'button'}/>
+                  type={'button'}
+                  data-cy="addButton"/>
           <Button onClick={dequeueVisualization} disabled={queue.isEmpty} extraClass={`ml-6`} text={'Удалить'}
-                  type={'button'}/>
+                  type={'button'} data-cy="delButton"/>
           <Button onClick={clear}
                   disabled={queue.isEmpty && headIndex === 0 && tailIndex === 0}
                   extraClass={`ml-40`} text={'Очистить'}
-                  type={'button'}/>
+                  type={'button'}
+                  data-cy="clearButton"/>
         </form>
         <ul className={styles.vizualization}>
           {arrayChars?.map((item: string | number, index: number) => <li key={index}>
