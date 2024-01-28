@@ -1,34 +1,20 @@
 
-import { swapper } from './utils';
+import { reverseString } from './utils';
 
-describe('swapper', () => {
-  test('поменять местами элементы с заданными индексами', async () => {
-    const arr = ['a', 'b', 'c'];
-    const leftIndex = 0;
-    const rightIndex = 2;
-
-    const result = await swapper(arr, leftIndex, rightIndex);
-
-    expect(result).toEqual(['c', 'b', 'a']);
+describe('reverseString', () => {
+  test('Корректно разворачивает пустую строку', () => {
+    expect(reverseString('')).toBe('');
   });
 
-  test('должен возвращать тот же массив, если длина меньше или равна 1', async () => {
-    const arr = ['a'];
-    const leftIndex = 0;
-    const rightIndex = 0;
-
-    const result = await swapper(arr, leftIndex, rightIndex);
-
-    expect(result).toEqual(['a']);
+  test('Корректно разворачивает строку с одним символом', () => {
+    expect(reverseString('a')).toBe('a');
   });
 
-  test('должен возвращать тот же массив, если индексы находятся за пределами допустимых значений', async () => {
-    const arr = ['a', 'b', 'c'];
-    const leftIndex = 3;
-    const rightIndex = 4;
+  test('Корректно разворачивает строку с чётным количеством символов', () => {
+    expect(reverseString('abcd')).toBe('dcba');
+  });
 
-    const result = await swapper(arr, leftIndex, rightIndex);
-
-    expect(result).toEqual(['a', 'b', 'c']);
+  test('Корректно разворачивает строку с нечетным количеством символов', () => {
+    expect(reverseString('abcde')).toBe('edcba');
   });
 });
